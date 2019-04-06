@@ -129,13 +129,25 @@ public class TicTacToeActivity extends AppCompatActivity{
                 dialog = builder.create();
                 break;
             case dialogAboutGameId:
-                builder = new AlertDialog.Builder(this);
-                Context context = getApplicationContext();
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.about_dialog,null);
-                builder.setView(layout);
-                builder.setPositiveButton("OK",null);
-                dialog = builder.create();
+                //builder = new AlertDialog.Builder(this);
+                //Context context = getApplicationContext();
+                //LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+                //View layout = inflater.inflate(R.layout.about_dialog, null);
+                //builder.setView(layout);
+                //builder.setPositiveButton("OK", null);
+                //dialog = builder.create();
+                dialog = new Dialog(TicTacToeActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.about_dialog);
+                Button okButton = dialog.findViewById(R.id.ok_button);
+                okButton.setEnabled(true);
+                final Dialog finalDialog = dialog;
+                okButton.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        finalDialog.cancel();
+                    }
+                });
                 break;
             case dialogQuitId:
                 builder.setMessage(R.string.quit_question).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
