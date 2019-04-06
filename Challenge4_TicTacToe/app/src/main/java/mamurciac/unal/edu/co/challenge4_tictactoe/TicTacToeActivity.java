@@ -196,59 +196,61 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
                 int row = (int) event.getY() / boardView.getBoardCellHeight();
                 int spot = row * 3 + column;
 
-                if(gameOver == false && setMove(TicTacToeGame.humanPlayer, spot) == true){
-                    //If there isn't winner yet, then it lets the computer make a move
-                    int winner = ticTacToeGame.checkForWinner();
-                    if(winner == TicTacToeGame.gameNotFinished){
-                        infoGame.setText(R.string.turn_computer);
-                        playerTurn = TicTacToeGame.computerPlayer;
+                if(ticTacToeGame.getBoardOccupant(spot) != TicTacToeGame.humanPlayer && ticTacToeGame.getBoardOccupant(spot) != TicTacToeGame.computerPlayer){
+                    if(gameOver == false && setMove(TicTacToeGame.humanPlayer, spot) == true){
+                        //If there isn't winner yet, then it lets the computer make a move
+                        int winner = ticTacToeGame.checkForWinner();
+                        if(winner == TicTacToeGame.gameNotFinished){
+                            infoGame.setText(R.string.turn_computer);
+                            playerTurn = TicTacToeGame.computerPlayer;
 
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable(){
-                            @Override
-                            public void run(){
-                                int move = ticTacToeGame.getComputerMove();
-                                setMove(TicTacToeGame.computerPlayer, move);
-                                int winner = ticTacToeGame.checkForWinner();
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable(){
+                                @Override
+                                public void run(){
+                                    int move = ticTacToeGame.getComputerMove();
+                                    setMove(TicTacToeGame.computerPlayer, move);
+                                    int winner = ticTacToeGame.checkForWinner();
 
-                                if(winner == TicTacToeGame.gameNotFinished){
-                                    infoGame.setText(R.string.turn_human);
-                                    playerTurn = TicTacToeGame.humanPlayer;
-                                }else if(winner == TicTacToeGame.gameTied){
-                                    infoGame.setText(R.string.result_tie);
-                                    gameOver = true;
-                                    ties++;
-                                    infoTies.setText("Ties: " + ties);
-                                }else if(winner == TicTacToeGame.gameWithHumanWinner){
-                                    infoGame.setText(R.string.result_human_wins);
-                                    gameOver = true;
-                                    humanWins++;
-                                    infoHumanWins.setText("Human Wins: " + humanWins);
-                                }else{
-                                    infoGame.setText(R.string.result_computer_wins);
-                                    gameOver = true;
-                                    androidWins++;
-                                    infoAndroidWins.setText("Android Wins: " + androidWins);
+                                    if(winner == TicTacToeGame.gameNotFinished){
+                                        infoGame.setText(R.string.turn_human);
+                                        playerTurn = TicTacToeGame.humanPlayer;
+                                    }else if(winner == TicTacToeGame.gameTied){
+                                        infoGame.setText(R.string.result_tie);
+                                        gameOver = true;
+                                        ties++;
+                                        infoTies.setText("Ties: " + ties);
+                                    }else if(winner == TicTacToeGame.gameWithHumanWinner){
+                                        infoGame.setText(R.string.result_human_wins);
+                                        gameOver = true;
+                                        humanWins++;
+                                        infoHumanWins.setText("Human Wins: " + humanWins);
+                                    }else{
+                                        infoGame.setText(R.string.result_computer_wins);
+                                        gameOver = true;
+                                        androidWins++;
+                                        infoAndroidWins.setText("Android Wins: " + androidWins);
+                                    }
                                 }
-                            }
-                        },1750);
-                    }else if(winner == TicTacToeGame.gameTied){
-                        infoGame.setText(R.string.result_tie);
-                        gameOver = true;
-                        ties++;
-                        infoTies.setText("Ties: " + ties);
-                    }else if(winner == TicTacToeGame.gameWithHumanWinner){
-                        infoGame.setText(R.string.result_human_wins);
-                        gameOver = true;
-                        humanWins++;
-                        infoHumanWins.setText("Human Wins: " + humanWins);
-                    }else{
-                        infoGame.setText(R.string.result_computer_wins);
-                        gameOver = true;
-                        androidWins++;
-                        infoAndroidWins.setText("Android Wins: " + androidWins);
+                            },1750);
+                        }else if(winner == TicTacToeGame.gameTied){
+                            infoGame.setText(R.string.result_tie);
+                            gameOver = true;
+                            ties++;
+                            infoTies.setText("Ties: " + ties);
+                        }else if(winner == TicTacToeGame.gameWithHumanWinner){
+                            infoGame.setText(R.string.result_human_wins);
+                            gameOver = true;
+                            humanWins++;
+                            infoHumanWins.setText("Human Wins: " + humanWins);
+                        }else{
+                            infoGame.setText(R.string.result_computer_wins);
+                            gameOver = true;
+                            androidWins++;
+                            infoAndroidWins.setText("Android Wins: " + androidWins);
+                        }
+                        return true;
                     }
-                    return true;
                 }
             }
             //So we aren't notified of continued events when finger is moved
