@@ -1,7 +1,9 @@
 package mamurciac.unal.edu.co.challenge3_tictactoe;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.*;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
@@ -15,6 +17,9 @@ public class TicTacToeActivity extends AppCompatActivity{
     private TextView infoGame, infoHumanWins, infoAndroidWins, infoTies;
 
     private int turn = 1, humanWins = 0, androidWins = 0, ties = 0;
+
+    //Menu options
+    static final int dialogDifficultyId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -81,15 +86,44 @@ public class TicTacToeActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
-        menu.add(R.string.new_game);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        turn++;
-        startNewGame();
-        return true;
+        switch(item.getItemId()){
+            case R.id.new_game:
+                turn++;
+                startNewGame();
+                return true;
+            case R.id.ai_difficulty:
+                showDialog(dialogDifficultyId);
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id){
+        Dialog dialog = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        switch(id){
+            case dialogDifficultyId:
+                builder.setTitle(R.string.difficulty_choose);
+                final CharSequence[] levels = {getResources().getString(R.string.difficulty_easy), getResources().getString(R.string.difficulty_medium), getResources().getString(R.string.difficulty_hard)};
+                builder.setSingleChoiceItems(levels, ticTacToeGame.getDifficultyLevel().ordinal(), new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int item){
+                        dialog.dismiss();
+                        ticTacToeGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.valueOf(String.valueOf(levels[item])));
+                        Toast.makeText(getApplicationContext(),"Game's Difficulty: " + levels[item], Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog = builder.create();
+                break;
+        }
+        return dialog;
     }
 
     //It handles clicks on the gameboard buttons

@@ -8,7 +8,19 @@ public class TicTacToeGame{
     public static final int numberSpots = 9, gameNotFinished = 0, gameTied = 1, gameWithHumanWinner = 2, gameWithComputerWinner = 3;
     public boolean gameOver = false;
 
+    //The computer's difficulty levels
+    public enum DifficultyLevel {Easy, Medium, Hard};
+    //It's the current difficulty level
+    private DifficultyLevel difficultyLevel = DifficultyLevel.Hard;
+
     private Random numberGenerator = new Random();
+
+    public DifficultyLevel getDifficultyLevel(){
+        return this.difficultyLevel;
+    }
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel){
+        this.difficultyLevel = difficultyLevel;
+    }
 
     //It clears the board of all X's and O's by setting all spots to openSpot
     public void clearBoard(){
@@ -26,36 +38,61 @@ public class TicTacToeGame{
     public int getComputerMove(){
         int move;
 
-        //It checks whether there's a move computerPlayer can make to win
-        for(int spot = 0; spot < numberSpots; spot++){
-            if(gameBoard[spot] != humanPlayer && gameBoard[spot] != computerPlayer){
-                char currentSpot = gameBoard[spot];
-                gameBoard[spot] = computerPlayer;
-                if(checkForWinner() == gameWithComputerWinner){
-                    return spot;
-                }else{
-                    gameBoard[spot] = currentSpot;
+        if(difficultyLevel == DifficultyLevel.Easy){
+            //It generates a random move. This move must be available to make a right gamble
+            do{
+                move = numberGenerator.nextInt(numberSpots);
+            }while(gameBoard[move] == humanPlayer || gameBoard[move] == computerPlayer);
+        }else if(difficultyLevel == DifficultyLevel.Medium){
+            //It checks whether there's a move computerPlayer can make to win
+            for(int spot = 0; spot < numberSpots; spot++){
+                if(gameBoard[spot] != humanPlayer && gameBoard[spot] != computerPlayer){
+                    char currentSpot = gameBoard[spot];
+                    gameBoard[spot] = computerPlayer;
+                    if(checkForWinner() == gameWithComputerWinner){
+                        return spot;
+                    }else{
+                        gameBoard[spot] = currentSpot;
+                    }
                 }
             }
-        }
 
-        //It checks whether there's a move computerPlayer can make to block humanPlayer from winning
-        for(int spot = 0; spot < numberSpots; spot++){
-            if(gameBoard[spot] != humanPlayer && gameBoard[spot] != computerPlayer){
-                char currentSpot = gameBoard[spot];
-                gameBoard[spot] = humanPlayer;
-                if(checkForWinner() == gameWithHumanWinner){
-                    return spot;
-                }else{
-                    gameBoard[spot] = currentSpot;
+            //It generates a random move. This move must be available to make a right gamble
+            do{
+                move = numberGenerator.nextInt(numberSpots);
+            }while(gameBoard[move] == humanPlayer || gameBoard[move] == computerPlayer);
+        }else{
+            //It checks whether there's a move computerPlayer can make to win
+            for(int spot = 0; spot < numberSpots; spot++){
+                if(gameBoard[spot] != humanPlayer && gameBoard[spot] != computerPlayer){
+                    char currentSpot = gameBoard[spot];
+                    gameBoard[spot] = computerPlayer;
+                    if(checkForWinner() == gameWithComputerWinner){
+                        return spot;
+                    }else{
+                        gameBoard[spot] = currentSpot;
+                    }
                 }
             }
-        }
 
-        //It generates a random move. This move must be available to make a right gamble
-        do{
-            move = numberGenerator.nextInt(numberSpots);
-        }while(gameBoard[move] == humanPlayer || gameBoard[move] == computerPlayer);
+            //It checks whether there's a move computerPlayer can make to block humanPlayer from winning
+            for(int spot = 0; spot < numberSpots; spot++){
+                if(gameBoard[spot] != humanPlayer && gameBoard[spot] != computerPlayer){
+                    char currentSpot = gameBoard[spot];
+                    gameBoard[spot] = humanPlayer;
+                    if(checkForWinner() == gameWithHumanWinner){
+                        return spot;
+                    }else{
+                        gameBoard[spot] = currentSpot;
+                    }
+                }
+            }
+
+            //It generates a random move. This move must be available to make a right gamble
+            do{
+                move = numberGenerator.nextInt(numberSpots);
+            }while(gameBoard[move] == humanPlayer || gameBoard[move] == computerPlayer);
+        }
         return move;
     }
 
