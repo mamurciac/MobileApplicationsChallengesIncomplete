@@ -9,7 +9,7 @@
         android:roundIcon="@drawable/icon_game"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TicTacToeActivity" android:screenOrientation="portrait">
+        <activity android:name=".TicTacToeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

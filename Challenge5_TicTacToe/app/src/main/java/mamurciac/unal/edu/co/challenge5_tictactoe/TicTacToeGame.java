@@ -22,6 +22,13 @@ public class TicTacToeGame{
         this.difficultyLevel = difficultyLevel;
     }
 
+    public char[] getBoardState(){
+        return this.gameBoard;
+    }
+    public void setBoardState(char[] boardState){
+        this.gameBoard = boardState.clone();
+    }
+
     //It clears the board of all X's and O's by setting all spots to openSpot
     public void clearBoard(){
         for(int spot = 0; spot < numberSpots; spot++){
