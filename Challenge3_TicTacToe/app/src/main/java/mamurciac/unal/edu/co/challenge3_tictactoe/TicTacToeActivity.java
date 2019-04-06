@@ -7,8 +7,9 @@ import android.support.v7.app.*;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
+import java.lang.reflect.*;
 
-public class TicTacToeActivity extends AppCompatActivity{
+public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
     //It represents the game's internal state
     private TicTacToeGame ticTacToeGame;
     //The buttons make up the board
@@ -20,6 +21,7 @@ public class TicTacToeActivity extends AppCompatActivity{
 
     //Menu options
     static final int dialogDifficultyId = 0, dialogAboutGameId = 1, dialogQuitId = 2;
+    private static String popupConstant = "mPopup", popupForceShowIcon = "setForceShowIcon";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -85,30 +87,9 @@ public class TicTacToeActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case R.id.new_game:
-                turn++;
-                startNewGame();
-                return true;
-            case R.id.ai_difficulty:
-                showDialog(dialogDifficultyId);
-                return true;
-            case R.id.about:
-                showDialog(dialogAboutGameId);
-                return true;
-            case R.id.quit:
-                showDialog(dialogQuitId);
-                return true;
-        }
-        return false;
     }
 
     @Override
@@ -159,6 +140,55 @@ public class TicTacToeActivity extends AppCompatActivity{
                 break;
         }
         return dialog;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.new_game:
+                turn++;
+                startNewGame();
+                return true;
+            case R.id.ai_difficulty:
+                showDialog(dialogDifficultyId);
+                return true;
+            case R.id.about:
+                showDialog(dialogAboutGameId);
+                return true;
+            case R.id.quit:
+                showDialog(dialogQuitId);
+                return true;
+        }
+        return false;
+    }
+
+    public boolean onMenuItemSelect(MenuItem item){
+        showPopup(findViewById(item.getItemId()));
+        return true;
+    }
+
+    public void showPopup(View view){
+        PopupMenu popup = new PopupMenu(TicTacToeActivity.this, view);
+        try{
+            //It forces to show the menu items' icons
+            Field[] fields = popup.getClass().getDeclaredFields();
+            for(Field field : fields){
+                if(field.getName().equals(popupConstant)){
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popup);
+                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Method setForceIcons = classPopupHelper.getMethod(popupForceShowIcon, boolean.class);
+                    setForceIcons.invoke(menuPopupHelper,true);
+                    break;
+                }
+            }
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
+
+        popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
     }
 
     //It handles clicks on the gameboard buttons
