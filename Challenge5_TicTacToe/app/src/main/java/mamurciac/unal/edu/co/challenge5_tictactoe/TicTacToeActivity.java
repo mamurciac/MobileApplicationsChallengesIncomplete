@@ -26,7 +26,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
     private boolean gameOver;
 
     //Menu options
-    static final int dialogDifficultySuccessId = 0, dialogDifficultyFailureId = 1, dialogAboutGameId = 2, dialogQuitId = 3;
+    static final int dialogDifficultySuccessId = 0, dialogDifficultyFailureId = 1, dialogRestoreScoreId = 2, dialogAboutGameId = 3, dialogQuitId = 4;
     private static String popupConstant = "mPopup", popupForceShowIcon = "setForceShowIcon";
 
     @Override
@@ -189,6 +189,23 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
                 builder.setMessage(R.string.difficulty_not_changeable).setCancelable(true).setPositiveButton(R.string.ok,null);
                 dialog = builder.create();
                 break;
+            case dialogRestoreScoreId:
+                builder.setMessage(R.string.restore_score_question).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        //It saves the new initial scores
+                        humanWins = 0;
+                        androidWins = 0;
+                        ties = 0;
+                        SharedPreferences.Editor editorPreferences = preferences.edit();
+                        editorPreferences.putInt("humanWins", humanWins);
+                        editorPreferences.putInt("androidWins", androidWins);
+                        editorPreferences.putInt("ties", ties);
+                        editorPreferences.commit();
+                        displayScores();
+                    }
+                }).setNegativeButton(R.string.no,null);
+                dialog = builder.create();
+                break;
             case dialogAboutGameId:
                 //builder = new AlertDialog.Builder(this);
                 //Context context = getApplicationContext();
@@ -235,6 +252,9 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
                 }else{
                     showDialog(dialogDifficultyFailureId);
                 }
+                return true;
+            case R.id.restore_score:
+                showDialog(dialogRestoreScoreId);
                 return true;
             case R.id.about:
                 showDialog(dialogAboutGameId);

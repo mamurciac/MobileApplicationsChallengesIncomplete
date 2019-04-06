@@ -14,6 +14,7 @@
     <string name="difficulty_hard">Hard</string>
     <string name="difficulty_not_changeable">You may only change game\'s difficulty before you make your first turn\'s gamble</string>
     <string name="quit_question">Are you sure you want to exit?</string>
+    <string name="restore_score_question">Are you sure you want to restore game\'s scores?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">OK</string>
