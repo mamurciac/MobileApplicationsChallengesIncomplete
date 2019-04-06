@@ -5,6 +5,7 @@ import android.content.*;
 import android.media.MediaPlayer;
 import android.support.v7.app.*;
 import android.os.*;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import java.lang.reflect.*;
@@ -17,6 +18,8 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
 
     private BoardView boardView;
     private MediaPlayer humanGambleMediaPlayer, computerGambleMediaPlayer;
+    Handler handler = new Handler();
+    Runnable runnable;
 
     //Text displayed as game's information (Turn and winner's game)
     private TextView infoGame, infoHumanWins, infoAndroidWins, infoTies;
@@ -70,6 +73,10 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
             ties = savedInstanceState.getInt("ties");
             difficultyLevel = savedInstanceState.getInt("difficultyLevel");
             playerTurn = savedInstanceState.getChar("playerTurn");
+
+            if(playerTurn == TicTacToeGame.computerPlayer){
+                performComputerGamble(true);
+            }
         }
         ticTacToeGame.setIdDifficultyLevel(difficultyLevel);
         displayScores();
@@ -117,9 +124,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
             infoGame.setText(R.string.turn_human);
         }
         playerTurn = TicTacToeGame.humanPlayer;
-        infoHumanWins.setText("Human Wins: " + humanWins);
-        infoAndroidWins.setText("Android Wins: " + androidWins);
-        infoTies.setText("Ties: " + ties);
+        displayScores();
     }
 
     //It updates the game's scores
@@ -129,14 +134,52 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
         infoTies.setText("Ties: " + Integer.toString(ties));
     }
 
-    private boolean setMove(char player, int location){
-        if(player == TicTacToeGame.humanPlayer){
-            humanGambleMediaPlayer.start();
-        }else{
-            computerGambleMediaPlayer.start();
-        }
+    private void performComputerGamble(final boolean isGambleMadeByComputer){
+        infoGame.setText(R.string.turn_computer);
+        playerTurn = TicTacToeGame.computerPlayer;
 
+        runnable = new Runnable(){
+            public void run(){
+                if(isGambleMadeByComputer == false){
+                    int move = ticTacToeGame.getComputerMove();
+                    setMove(TicTacToeGame.computerPlayer, move);
+                }
+
+                int winner = ticTacToeGame.checkForWinner();
+                if(winner == TicTacToeGame.gameNotFinished){
+                    infoGame.setText(R.string.turn_human);
+                    playerTurn = TicTacToeGame.humanPlayer;
+                }else if(winner == TicTacToeGame.gameTied){
+                    infoGame.setText(R.string.result_tie);
+                    gameOver = true;
+                    ties++;
+                }else if(winner == TicTacToeGame.gameWithHumanWinner){
+                    infoGame.setText(R.string.result_human_wins);
+                    gameOver = true;
+                    humanWins++;
+                }else{
+                    infoGame.setText(R.string.result_computer_wins);
+                    gameOver = true;
+                    androidWins++;
+                }
+                displayScores();
+                boardView.invalidate(); //It redraws the board
+
+                try{
+                    computerGambleMediaPlayer.start();
+                }catch(Exception exception){
+                    Log.v("Admin", exception.toString());
+                }
+            }
+        };
+        handler.postDelayed(runnable,1750);
+    }
+
+    private boolean setMove(char player, int location){
         if(ticTacToeGame.setMove(player, location) == true){
+            if(player == TicTacToeGame.humanPlayer){
+                humanGambleMediaPlayer.start();
+            }
             boardView.invalidate(); //It redraws the board
             return true;
         }
@@ -146,8 +189,6 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
     @Override
     protected void onResume(){
         super.onResume();
-        humanGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.x_sound);
-        computerGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.o_sound);
     }
 
     @Override
@@ -325,54 +366,21 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
                         //If there isn't winner yet, then it lets the computer make a move
                         int winner = ticTacToeGame.checkForWinner();
                         if(winner == TicTacToeGame.gameNotFinished){
-                            infoGame.setText(R.string.turn_computer);
-                            playerTurn = TicTacToeGame.computerPlayer;
-
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable(){
-                                @Override
-                                public void run(){
-                                    int move = ticTacToeGame.getComputerMove();
-                                    setMove(TicTacToeGame.computerPlayer, move);
-                                    int winner = ticTacToeGame.checkForWinner();
-
-                                    if(winner == TicTacToeGame.gameNotFinished){
-                                        infoGame.setText(R.string.turn_human);
-                                        playerTurn = TicTacToeGame.humanPlayer;
-                                    }else if(winner == TicTacToeGame.gameTied){
-                                        infoGame.setText(R.string.result_tie);
-                                        gameOver = true;
-                                        ties++;
-                                        infoTies.setText("Ties: " + ties);
-                                    }else if(winner == TicTacToeGame.gameWithHumanWinner){
-                                        infoGame.setText(R.string.result_human_wins);
-                                        gameOver = true;
-                                        humanWins++;
-                                        infoHumanWins.setText("Human Wins: " + humanWins);
-                                    }else{
-                                        infoGame.setText(R.string.result_computer_wins);
-                                        gameOver = true;
-                                        androidWins++;
-                                        infoAndroidWins.setText("Android Wins: " + androidWins);
-                                    }
-                                }
-                            },1750);
+                            performComputerGamble(false);
                         }else if(winner == TicTacToeGame.gameTied){
                             infoGame.setText(R.string.result_tie);
                             gameOver = true;
                             ties++;
-                            infoTies.setText("Ties: " + ties);
                         }else if(winner == TicTacToeGame.gameWithHumanWinner){
                             infoGame.setText(R.string.result_human_wins);
                             gameOver = true;
                             humanWins++;
-                            infoHumanWins.setText("Human Wins: " + humanWins);
                         }else{
                             infoGame.setText(R.string.result_computer_wins);
                             gameOver = true;
                             androidWins++;
-                            infoAndroidWins.setText("Android Wins: " + androidWins);
                         }
+                        displayScores();
                         return true;
                     }
                 }
