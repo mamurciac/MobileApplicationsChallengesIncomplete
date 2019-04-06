@@ -74,7 +74,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
             difficultyLevel = savedInstanceState.getInt("difficultyLevel");
             playerTurn = savedInstanceState.getChar("playerTurn");
 
-            if(playerTurn == TicTacToeGame.computerPlayer){
+            if(playerTurn == TicTacToeGame.computerPlayer && gameOver == false){
                 performComputerGamble(true);
             }
         }
