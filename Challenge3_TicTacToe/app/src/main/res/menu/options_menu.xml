@@ -5,6 +5,9 @@
     <item android:id="@+id/ai_difficulty"
         android:title="Difficulty"
         android:icon="@drawable/icon_difficulty"/>
+    <item android:id="@+id/about"
+        android:title="About the Game"
+        android:icon="@drawable/icon_about"/>
     <item android:id="@+id/quit"
         android:title="Quit"
         android:icon="@drawable/icon_exit"/>
