@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFA4D"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <mamurciac.unal.edu.co.challenge6_tictactoe.BoardView
+        android:id="@+id/game_board"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="30dp"/>
+
+    <TableLayout
+        android:id="@+id/information_grid"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <TableRow android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/game_information"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:layout_margin="2dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="info"
+                android:textColor="#0000ff"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/human_wins"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:layout_margin="2dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="info"
+                android:textColor="#0000ff"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/android_wins"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:layout_margin="2dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="info"
+                android:textColor="#0000ff"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/number_ties"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:layout_margin="2dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="info"
+                android:textColor="#0000ff"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
