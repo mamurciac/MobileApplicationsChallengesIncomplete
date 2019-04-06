@@ -12,6 +12,9 @@ import java.lang.reflect.*;
 public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
     //It represents the game's internal state
     private TicTacToeGame ticTacToeGame;
+
+    private SharedPreferences preferences;
+
     private BoardView boardView;
     private MediaPlayer humanGambleMediaPlayer, computerGambleMediaPlayer;
 
@@ -29,6 +32,13 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        //It restores the scores
+        preferences = getSharedPreferences("tictactoe_preferences", MODE_PRIVATE);
+        humanWins = preferences.getInt("humanWins",0);
+        androidWins = preferences.getInt("androidWins",0);
+        ties = preferences.getInt("ties",0);
+
         setContentView(R.layout.activity_tic_tac_toe);
         humanGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.x_sound);
         computerGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.o_sound);
@@ -138,6 +148,17 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
         super.onPause();
         humanGambleMediaPlayer.release();
         computerGambleMediaPlayer.release();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        //It saves the current scores
+        SharedPreferences.Editor editorPreferences = preferences.edit();
+        editorPreferences.putInt("humanWins", humanWins);
+        editorPreferences.putInt("androidWins", androidWins);
+        editorPreferences.putInt("ties", ties);
+        editorPreferences.commit();
     }
 
     @Override
