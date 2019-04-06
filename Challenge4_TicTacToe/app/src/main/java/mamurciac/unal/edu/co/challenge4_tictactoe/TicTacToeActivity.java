@@ -3,7 +3,7 @@ package mamurciac.unal.edu.co.challenge4_tictactoe;
 import android.app.Dialog;
 import android.content.*;
 import android.support.v7.app.*;
-import android.os.Bundle;
+import android.os.*;
 import android.view.*;
 import android.widget.*;
 import java.lang.reflect.*;
@@ -202,29 +202,36 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
                     if(winner == TicTacToeGame.gameNotFinished){
                         infoGame.setText(R.string.turn_computer);
                         playerTurn = TicTacToeGame.computerPlayer;
-                        int move = ticTacToeGame.getComputerMove();
-                        setMove(TicTacToeGame.computerPlayer, move);
-                        winner = ticTacToeGame.checkForWinner();
 
-                        if(winner == TicTacToeGame.gameNotFinished){
-                            infoGame.setText(R.string.turn_human);
-                            playerTurn = TicTacToeGame.humanPlayer;
-                        }else if(winner == TicTacToeGame.gameTied){
-                            infoGame.setText(R.string.result_tie);
-                            gameOver = true;
-                            ties++;
-                            infoTies.setText("Ties: " + ties);
-                        }else if(winner == TicTacToeGame.gameWithHumanWinner){
-                            infoGame.setText(R.string.result_human_wins);
-                            gameOver = true;
-                            humanWins++;
-                            infoHumanWins.setText("Human Wins: " + humanWins);
-                        }else{
-                            infoGame.setText(R.string.result_computer_wins);
-                            gameOver = true;
-                            androidWins++;
-                            infoAndroidWins.setText("Android Wins: " + androidWins);
-                        }
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable(){
+                            @Override
+                            public void run(){
+                                int move = ticTacToeGame.getComputerMove();
+                                setMove(TicTacToeGame.computerPlayer, move);
+                                int winner = ticTacToeGame.checkForWinner();
+
+                                if(winner == TicTacToeGame.gameNotFinished){
+                                    infoGame.setText(R.string.turn_human);
+                                    playerTurn = TicTacToeGame.humanPlayer;
+                                }else if(winner == TicTacToeGame.gameTied){
+                                    infoGame.setText(R.string.result_tie);
+                                    gameOver = true;
+                                    ties++;
+                                    infoTies.setText("Ties: " + ties);
+                                }else if(winner == TicTacToeGame.gameWithHumanWinner){
+                                    infoGame.setText(R.string.result_human_wins);
+                                    gameOver = true;
+                                    humanWins++;
+                                    infoHumanWins.setText("Human Wins: " + humanWins);
+                                }else{
+                                    infoGame.setText(R.string.result_computer_wins);
+                                    gameOver = true;
+                                    androidWins++;
+                                    infoAndroidWins.setText("Android Wins: " + androidWins);
+                                }
+                            }
+                        },1750);
                     }else if(winner == TicTacToeGame.gameTied){
                         infoGame.setText(R.string.result_tie);
                         gameOver = true;

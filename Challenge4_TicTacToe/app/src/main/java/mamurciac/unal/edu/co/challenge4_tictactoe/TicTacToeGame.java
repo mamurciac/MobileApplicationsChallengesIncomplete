@@ -31,11 +31,8 @@ public class TicTacToeGame{
 
     //It sets the given player at the given location on the gameboard. The location must be available or the board won't be changed
     public boolean setMove(char player, int location){
-        if(gameBoard[location] != humanPlayer && gameBoard[location] != computerPlayer){
-            gameBoard[location] = player;
-            return true;
-        }
-        return false;
+        gameBoard[location] = player;
+        return true;
     }
 
     //It consults the player located at the board's position
