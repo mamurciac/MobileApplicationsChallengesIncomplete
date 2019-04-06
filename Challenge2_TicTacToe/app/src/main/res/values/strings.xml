@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Challenge2_TicTacToe</string>
+    <string name="app_name">TicTacToe</string>
+    <string name="new_game">New Game</string>
+    <string name="first_turn_human">You are first</string>
+    <string name="first_turn_computer">Android is first</string>
+    <string name="turn_human">It\'s your turn</string>
+    <string name="turn_computer">It\'s Android\'s turn</string>
+    <string name="result_tie">It\'s a tie</string>
+    <string name="result_human_wins">¡¡You won!!</string>
+    <string name="result_computer_wins">¡¡Android won!!</string>
 </resources>

@@ -3,7 +3,7 @@ package mamurciac.unal.edu.co.challenge2_tictactoe;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 
 public class TicTacToeActivity extends AppCompatActivity{
@@ -43,7 +43,7 @@ public class TicTacToeActivity extends AppCompatActivity{
             boardButtons[spot].setEnabled(true);
             boardButtons[spot].setOnClickListener(new ButtonClickListener(spot));
         }
-        infoGame.setText("¡¡You are first!!");
+        infoGame.setText(R.string.first_turn_human);
     }
 
     private void setMove(char player, int location){
@@ -56,6 +56,19 @@ public class TicTacToeActivity extends AppCompatActivity{
         }else{
             boardButtons[location].setTextColor(Color.rgb(200,0,0));
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        menu.add(R.string.new_game);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        startNewGame();
+        return true;
     }
 
     //It handles clicks on the gameboard buttons
@@ -71,26 +84,26 @@ public class TicTacToeActivity extends AppCompatActivity{
                 //If there isn't winner yet, then it lets the computer make a move
                 int winner = ticTacToeGame.checkForWinner();
                 if(winner == TicTacToeGame.gameNotFinished){
-                    infoGame.setText("¡¡It's Android's turn!!");
+                    infoGame.setText(R.string.turn_computer);
                     int move = ticTacToeGame.getComputerMove();
                     setMove(TicTacToeGame.computerPlayer, move);
                     winner = ticTacToeGame.checkForWinner();
                 }
 
                 if(winner == TicTacToeGame.gameNotFinished){
-                    infoGame.setText("¡¡It's your turn!!");
+                    infoGame.setText(R.string.turn_human);
                 }else if(winner == TicTacToeGame.gameTied){
-                    infoGame.setText("¡¡It's a tie!!");
+                    infoGame.setText(R.string.result_tie);
                     for(int spot = 0; spot < boardButtons.length; spot++){
                         boardButtons[spot].setEnabled(false);
                     }
                 }else if(winner == TicTacToeGame.gameWithHumanWinner){
-                    infoGame.setText("¡¡You won!!");
+                    infoGame.setText(R.string.result_human_wins);
                     for(int spot = 0; spot < boardButtons.length; spot++){
                         boardButtons[spot].setEnabled(false);
                     }
                 }else{
-                    infoGame.setText("¡¡Android won!!");
+                    infoGame.setText(R.string.result_computer_wins);
                     for(int spot = 0; spot < boardButtons.length; spot++){
                         boardButtons[spot].setEnabled(false);
                     }
