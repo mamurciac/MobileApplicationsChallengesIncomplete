@@ -9,7 +9,7 @@ public class BoardView extends View{
     private TicTacToeGame ticTacToeGame;
 
     //It is the board grid lines' width
-    public static final int gridWidth = 6;
+    public static final int gridWidth = 8;
 
     private Bitmap humanFigure;
     private Bitmap computerFigure;
@@ -55,7 +55,7 @@ public class BoardView extends View{
         int boardHeight = getHeight();
 
         //It makes thick and light gray lines
-        boardPaint.setColor(Color.LTGRAY);
+        boardPaint.setColor(Color.BLACK);
         boardPaint.setStrokeWidth(gridWidth);
 
         //It draws the two vertical board lines

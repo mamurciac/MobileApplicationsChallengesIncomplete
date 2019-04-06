@@ -9,8 +9,8 @@
 
     <mamurciac.unal.edu.co.challenge4_tictactoe.BoardView
         android:id="@+id/game_board"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         android:layout_marginTop="5dp"/>
 
     <TextView android:id="@+id/game_information"
