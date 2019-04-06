@@ -14,6 +14,8 @@ public class TicTacToeActivity extends AppCompatActivity{
     //Text displayed as game's information (Turn and winner's game)
     private TextView infoGame;
 
+    private int turn = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -43,7 +45,19 @@ public class TicTacToeActivity extends AppCompatActivity{
             boardButtons[spot].setEnabled(true);
             boardButtons[spot].setOnClickListener(new ButtonClickListener(spot));
         }
-        infoGame.setText(R.string.first_turn_human);
+
+        //According to the turn, human or computer player goes first
+        if(turn % 2 == 1){
+            infoGame.setText(R.string.first_turn_human);
+        }else{
+            infoGame.setText(R.string.first_turn_computer);
+            int move = ticTacToeGame.getComputerMove();
+            ticTacToeGame.setMove(TicTacToeGame.computerPlayer, move);
+            boardButtons[move].setEnabled(false);
+            boardButtons[move].setText(String.valueOf(TicTacToeGame.computerPlayer));
+            boardButtons[move].setTextColor(Color.rgb(200,0,0));
+            infoGame.setText(R.string.turn_human);
+        }
     }
 
     private void setMove(char player, int location){
@@ -67,6 +81,7 @@ public class TicTacToeActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        turn++;
         startNewGame();
         return true;
     }
