@@ -144,4 +144,15 @@ public class TicTacToeGame{
         gameOver = true;
         return gameTied;
     }
+
+    public boolean checkWhetherHumanPlayed(){
+        boolean humanHasGambledInTheTurn = false;
+        for(int spot = 0; spot < numberSpots; spot++){
+            if(gameBoard[spot] == humanPlayer){
+                humanHasGambledInTheTurn = true;
+                break;
+            }
+        }
+        return humanHasGambledInTheTurn;
+    }
 }

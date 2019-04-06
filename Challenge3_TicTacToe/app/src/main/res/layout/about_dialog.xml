@@ -59,7 +59,7 @@
         android:layout_height="35dp"
         android:layout_margin="20dp"
         android:background="@drawable/red_button"
-        android:text="OK"
+        android:text="@string/ok"
         android:textColor="#FFFFFF"
         android:textSize="15sp"/>
 </LinearLayout>
