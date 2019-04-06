@@ -12,4 +12,7 @@
     <string name="difficulty_easy">Easy</string>
     <string name="difficulty_medium">Medium</string>
     <string name="difficulty_hard">Hard</string>
+    <string name="quit_question">Are you sure you want to exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

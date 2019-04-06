@@ -19,7 +19,7 @@ public class TicTacToeActivity extends AppCompatActivity{
     private int turn = 1, humanWins = 0, androidWins = 0, ties = 0;
 
     //Menu options
-    static final int dialogDifficultyId = 0;
+    static final int dialogDifficultyId = 0, dialogQuitId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -101,6 +101,9 @@ public class TicTacToeActivity extends AppCompatActivity{
             case R.id.ai_difficulty:
                 showDialog(dialogDifficultyId);
                 return true;
+            case R.id.quit:
+                showDialog(dialogQuitId);
+                return true;
         }
         return false;
     }
@@ -120,6 +123,14 @@ public class TicTacToeActivity extends AppCompatActivity{
                         Toast.makeText(getApplicationContext(),"Game's Difficulty: " + levels[item], Toast.LENGTH_SHORT).show();
                     }
                 });
+                dialog = builder.create();
+                break;
+            case dialogQuitId:
+                builder.setMessage(R.string.quit_question).setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        TicTacToeActivity.this.finish();
+                    }
+                }).setNegativeButton(R.string.no,null);
                 dialog = builder.create();
                 break;
         }
