@@ -69,8 +69,45 @@
     <TextView android:id="@+id/game_information"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="info"
+        android:layout_marginTop="30dp"
+        android:fontFamily="casual"
         android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"/>
+        android:text="info"
+        android:textColor="#0000ff"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/human_wins"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:fontFamily="casual"
+        android:gravity="center_horizontal"
+        android:text="info"
+        android:textColor="#0000ff"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <TextView android:id="@+id/android_wins"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:fontFamily="casual"
+        android:gravity="center_horizontal"
+        android:text="info"
+        android:textColor="#0000ff"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <TextView android:id="@+id/number_ties"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:fontFamily="casual"
+        android:gravity="center_horizontal"
+        android:text="info"
+        android:textColor="#0000ff"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
 </LinearLayout>
