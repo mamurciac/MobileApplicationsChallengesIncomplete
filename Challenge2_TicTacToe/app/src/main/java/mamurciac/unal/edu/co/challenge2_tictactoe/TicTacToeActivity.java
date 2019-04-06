@@ -81,10 +81,19 @@ public class TicTacToeActivity extends AppCompatActivity{
                     infoGame.setText("¡¡It's your turn!!");
                 }else if(winner == TicTacToeGame.gameTied){
                     infoGame.setText("¡¡It's a tie!!");
+                    for(int spot = 0; spot < boardButtons.length; spot++){
+                        boardButtons[spot].setEnabled(false);
+                    }
                 }else if(winner == TicTacToeGame.gameWithHumanWinner){
                     infoGame.setText("¡¡You won!!");
+                    for(int spot = 0; spot < boardButtons.length; spot++){
+                        boardButtons[spot].setEnabled(false);
+                    }
                 }else{
                     infoGame.setText("¡¡Android won!!");
+                    for(int spot = 0; spot < boardButtons.length; spot++){
+                        boardButtons[spot].setEnabled(false);
+                    }
                 }
             }
         }
