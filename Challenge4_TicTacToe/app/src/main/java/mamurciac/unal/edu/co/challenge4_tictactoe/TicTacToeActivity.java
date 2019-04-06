@@ -2,6 +2,7 @@ package mamurciac.unal.edu.co.challenge4_tictactoe;
 
 import android.app.Dialog;
 import android.content.*;
+import android.media.MediaPlayer;
 import android.support.v7.app.*;
 import android.os.*;
 import android.view.*;
@@ -12,6 +13,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
     //It represents the game's internal state
     private TicTacToeGame ticTacToeGame;
     private BoardView boardView;
+    private MediaPlayer humanGambleMediaPlayer, computerGambleMediaPlayer;
 
     //Text displayed as game's information (Turn and winner's game)
     private TextView infoGame, infoHumanWins, infoAndroidWins, infoTies;
@@ -28,6 +30,8 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tic_tac_toe);
+        humanGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.x_sound);
+        computerGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.o_sound);
 
         infoGame = findViewById(R.id.game_information);
         infoHumanWins = findViewById(R.id.human_wins);
@@ -65,11 +69,31 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
     }
 
     private boolean setMove(char player, int location){
+        if(player == TicTacToeGame.humanPlayer){
+            humanGambleMediaPlayer.start();
+        }else{
+            computerGambleMediaPlayer.start();
+        }
+
         if(ticTacToeGame.setMove(player, location) == true){
             boardView.invalidate(); //It redraws the board
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        humanGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.x_sound);
+        computerGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.o_sound);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        humanGambleMediaPlayer.release();
+        computerGambleMediaPlayer.release();
     }
 
     @Override
