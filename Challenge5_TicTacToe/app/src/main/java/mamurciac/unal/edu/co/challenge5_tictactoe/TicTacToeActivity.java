@@ -21,8 +21,10 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
     //Text displayed as game's information (Turn and winner's game)
     private TextView infoGame, infoHumanWins, infoAndroidWins, infoTies;
 
+    static final int difficultyEasy = 0, difficultyMedium = 1, difficultyHard = 2;
+
     private char playerTurn;
-    private int turn = 1, humanWins = 0, androidWins = 0, ties = 0;
+    private int turn = 1, humanWins = 0, androidWins = 0, ties = 0, difficultyLevel = difficultyHard;
     private boolean gameOver;
 
     //Menu options
@@ -38,6 +40,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
         humanWins = preferences.getInt("humanWins",0);
         androidWins = preferences.getInt("androidWins",0);
         ties = preferences.getInt("ties",0);
+        difficultyLevel = preferences.getInt("difficultyLevel", difficultyHard);
 
         setContentView(R.layout.activity_tic_tac_toe);
         humanGambleMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.x_sound);
@@ -65,8 +68,10 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
             humanWins = savedInstanceState.getInt("humanWins");
             androidWins = savedInstanceState.getInt("androidWins");
             ties = savedInstanceState.getInt("ties");
+            difficultyLevel = savedInstanceState.getInt("difficultyLevel");
             playerTurn = savedInstanceState.getChar("playerTurn");
         }
+        ticTacToeGame.setIdDifficultyLevel(difficultyLevel);
         displayScores();
     }
 
@@ -79,6 +84,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
         humanWins = savedInstanceState.getInt("humanWins");
         androidWins = savedInstanceState.getInt("androidWins");
         ties = savedInstanceState.getInt("ties");
+        difficultyLevel = savedInstanceState.getInt("difficultyLevel");
         playerTurn = savedInstanceState.getChar("playerTurn");
     }
 
@@ -91,6 +97,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
         outState.putInt("androidWins", Integer.valueOf(androidWins));
         outState.putInt("ties", Integer.valueOf(ties));
         outState.putCharSequence("infoGame", infoGame.getText());
+        outState.putInt("difficultyLevel", Integer.valueOf(difficultyLevel));
         outState.putChar("playerTurn", playerTurn);
     }
 
@@ -158,6 +165,7 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
         editorPreferences.putInt("humanWins", humanWins);
         editorPreferences.putInt("androidWins", androidWins);
         editorPreferences.putInt("ties", ties);
+        editorPreferences.putInt("difficultyLevel", difficultyLevel);
         editorPreferences.commit();
     }
 
@@ -179,7 +187,14 @@ public class TicTacToeActivity extends AppCompatActivity implements PopupMenu.On
                 builder.setSingleChoiceItems(levels, ticTacToeGame.getDifficultyLevel().ordinal(), new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int item){
                         dialog.dismiss();
-                        ticTacToeGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.valueOf(String.valueOf(levels[item])));
+                        ticTacToeGame.setIdDifficultyLevel(item);
+
+                        //It stores difficulty level's changes
+                        SharedPreferences.Editor preferencesEditor = preferences.edit();
+                        preferencesEditor.putInt("difficultyLevel", item);
+                        preferencesEditor.apply();
+
+                        difficultyLevel = item;
                         Toast.makeText(getApplicationContext(),"Game's Difficulty: " + levels[item], Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -21,6 +21,12 @@ public class TicTacToeGame{
     public void setDifficultyLevel(DifficultyLevel difficultyLevel){
         this.difficultyLevel = difficultyLevel;
     }
+    public int getIdDifficultyLevel(){
+        return this.difficultyLevel.ordinal();
+    }
+    public void setIdDifficultyLevel(int idDifficultyLevel){
+        this.difficultyLevel = DifficultyLevel.values()[idDifficultyLevel];
+    }
 
     public char[] getBoardState(){
         return this.gameBoard;
