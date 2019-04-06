@@ -7,84 +7,11 @@
     android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical">
 
-    <TableLayout
-        android:id="@+id/gameboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal">
-
-        <TableRow android:gravity="center_vertical|center_horizontal">
-            <Button android:id="@+id/spot_one"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="1"
-                android:textSize="60sp"/>
-            <Button android:id="@+id/spot_two"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="2"
-                android:textSize="60sp"/>
-            <Button android:id="@+id/spot_three"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="3"
-                android:textSize="60sp"/>
-        </TableRow>
-
-        <TableRow android:gravity="center_vertical|center_horizontal">
-            <Button android:id="@+id/spot_four"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="4"
-                android:textSize="60sp"/>
-            <Button android:id="@+id/spot_five"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="5"
-                android:textSize="60sp"/>
-            <Button android:id="@+id/spot_six"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="6"
-                android:textSize="60sp"/>
-        </TableRow>
-
-        <TableRow android:gravity="center_vertical|center_horizontal">
-            <Button android:id="@+id/spot_seven"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="7"
-                android:textSize="60sp"/>
-            <Button android:id="@+id/spot_eight"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="8"
-                android:textSize="60sp"/>
-            <Button android:id="@+id/spot_nine"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_button"
-                android:text="9"
-                android:textSize="60sp"/>
-        </TableRow>
-    </TableLayout>
+    <mamurciac.unal.edu.co.challenge4_tictactoe.BoardView
+        android:id="@+id/game_board"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="5dp"/>
 
     <TextView android:id="@+id/game_information"
         android:layout_width="fill_parent"

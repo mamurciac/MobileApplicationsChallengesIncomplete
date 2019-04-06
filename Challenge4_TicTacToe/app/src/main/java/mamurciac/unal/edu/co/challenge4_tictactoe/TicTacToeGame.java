@@ -30,8 +30,17 @@ public class TicTacToeGame{
     }
 
     //It sets the given player at the given location on the gameboard. The location must be available or the board won't be changed
-    public void setMove(char player, int location){
-        gameBoard[location] = player;
+    public boolean setMove(char player, int location){
+        if(gameBoard[location] != humanPlayer && gameBoard[location] != computerPlayer){
+            gameBoard[location] = player;
+            return true;
+        }
+        return false;
+    }
+
+    //It consults the player located at the board's position
+    public int getBoardOccupant(int position){
+        return this.gameBoard[position];
     }
 
     //It computes the best move for the computer to make. You must call setMove() to actually make the computer move to that location
